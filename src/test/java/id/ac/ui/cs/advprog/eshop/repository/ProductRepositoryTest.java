@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Iterator;
 
@@ -53,7 +52,7 @@ class ProductRepositoryTest {
         productRepository.create(product1);
 
         Product product2 = new Product();
-        product2.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
+        product2.setProductId("a0f9646e-90b1-437d-a0bf-d0821dde9098");
         product2.setProductName("Sampo Cap Usep");
         product2.setProductQuantity(50);
         productRepository.create(product2);
@@ -65,64 +64,62 @@ class ProductRepositoryTest {
         savedProduct = productIterator.next();
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
-
     }
+
+    // Update an existing product
     @Test
-    void testEditProductPositive() {
-        // Create and add a product
+    void testUpdateProduct_Success() {
         Product product = new Product();
-        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product.setProductName("Sampo Cap Bambang");
-        product.setProductQuantity(100);
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63444");
+        product.setProductName("Old Name");
+        product.setProductQuantity(50);
+
         productRepository.create(product);
 
-        // Edit product details
-        product.setProductName("Sampo Cap Bambang Updated");
-        product.setProductQuantity(120);
-        productRepository.update(product);
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63444");
+        updatedProduct.setProductName("Available Product");
+        updatedProduct.setProductQuantity(75);
 
-        // Retrieve and verify the updated product
-        Iterator<Product> productIterator = productRepository.findAll();
-        assertTrue(productIterator.hasNext());
-        Product updatedProduct = productIterator.next();
-        assertEquals("Sampo Cap Bambang Updated", updatedProduct.getProductName());
-        assertEquals(120, updatedProduct.getProductQuantity());
+        productRepository.update(updatedProduct);
+        Product modifiedProduct = productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63444");
+
+        assertEquals("Available Product", modifiedProduct.getProductName());
+        assertEquals(75, modifiedProduct.getProductQuantity());
     }
 
+    // Update a non-existent product
     @Test
-    void testEditProductNegative() {
-        // Attempt to edit a non-existent product
-        Product nonExistentProduct = new Product();
-        nonExistentProduct.setProductId("non-existent-id");
-        nonExistentProduct.setProductName("Fake Product");
-        nonExistentProduct.setProductQuantity(999);
+    void testUpdateProduct_Fail_ProductNotFound() {
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("a0f9646e-9022-437d-a0bf-d0821dde9098");
+        updatedProduct.setProductName("No Product");
+        updatedProduct.setProductQuantity(20);
 
-        Product result = productRepository.update(nonExistentProduct);
-        assertNull(result, "Expected null when updating a non-existent product");
+        productRepository.update(updatedProduct);
+        assertNull(productRepository.findById("a0f9646e-9022-437d-a0bf-d0821dde9098"));
     }
 
+    // Delete an existing product
     @Test
-    void testDeleteProductPositive() {
-        // Create and add a product
+    void testDeleteProduct_Success() {
         Product product = new Product();
-        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product.setProductName("Sampo Cap Bambang");
-        product.setProductQuantity(100);
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63444");
+        product.setProductName("Un-Add Product");
+        product.setProductQuantity(50);
+
         productRepository.create(product);
+        assertNotNull(productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63444"));
 
-        // Delete the product
-        productRepository.delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
-
-        // Verify the product is deleted
-        Iterator<Product> productIterator = productRepository.findAll();
-        assertFalse(productIterator.hasNext());
+        productRepository.delete("eb558e9f-1c39-460e-8860-71af6af63444");
+        assertNull(productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63444"));
     }
 
+    // Delete a non-existent product
     @Test
-    void testDeleteProductNegative() {
-        // Attempt to delete a non-existent product
-        boolean result = productRepository.delete("non-existent-id");
-        assertFalse(result, "Expected false when deleting a non-existent product");
+    void testDeleteProduct_Fail_ProductNotFound() {
+        productRepository.delete("a0f9646e-9022-437d-a0bf-d0821dde9098");
+        assertNull(productRepository.findById("a0f9646e-9022-437d-a0bf-d0821dde9098"));
     }
 
 }
