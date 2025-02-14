@@ -37,6 +37,9 @@
         .btn-warning {
             background-color: #007bff;
         }
+        .btn-danger {
+            background-color: #dc3545;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -71,15 +74,19 @@
         <tr>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Actions</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="product : ${products}">
             <td th:text="${product.productName}">Product Name</td>
             <td th:text="${product.productQuantity}">Quantity</td>
-            <td class="actions">
+            <td>
                 <a th:href="@{'/product/edit/' + ${product.productId}}" class="btn btn-warning">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/product/delete/' + ${product.productId}}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>
