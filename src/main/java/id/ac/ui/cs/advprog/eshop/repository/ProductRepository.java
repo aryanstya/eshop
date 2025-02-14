@@ -16,9 +16,18 @@ public class ProductRepository {
         return product;
     }
 
-    public Iterator<Product> findAll () {
+    public Iterator<Product> findAll() {
         return productData.iterator();
+    }
 
+
+    public Product findById(String productId) {
+        for (Product product : productData) {
+            if (product.getProductId() != null && product.getProductId().equals(productId)) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public Product update(Product updatedProduct) {
@@ -29,7 +38,7 @@ public class ProductRepository {
                 return product;
             }
         }
-        return null; // If product not found
+        return null; // Product not found
     }
 
     public boolean delete(String productId) {
@@ -38,7 +47,7 @@ public class ProductRepository {
             Product product = iterator.next();
             if (product.getProductId() != null && product.getProductId().equals(productId)) {
                 iterator.remove();
-                return true;  // Successfully deleted
+                return true;
             }
         }
         return false;  // Product not found
