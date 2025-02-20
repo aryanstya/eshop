@@ -25,7 +25,13 @@ jobs:
         with:
           fetch-depth: 0  # ✅ Penting agar SonarCloud bisa membaca riwayat commit
 
-      - name: Check SonarCloud Token
+      - name: Debug SonarCloud Token
+        run: |
+          echo "Checking SONAR_TOKEN length: ${#SONAR_TOKEN}"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Validate SonarCloud Token
         run: |
           if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
             echo "ERROR: SONAR_TOKEN is not set!"
@@ -59,10 +65,15 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew clean build jacocoTestReport sonar --stacktrace --info
+          ./gradlew clean build jacocoTestReport sonar \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            --stacktrace --info
+
+      - name: List Generated Reports
+        run: ls -R build/sonar
 
       - name: Upload SonarCloud SARIF Report
         if: success()
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: build/reports/sonarqube/report-task.txt
+          sarif_file: build/sonar/report-task.txt
