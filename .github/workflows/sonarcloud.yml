@@ -27,3 +27,4 @@ jobs:
             -Dsonar.projectKey=aryanstya_eshop2
             -Dsonar.organization=aryanstya
             -Dsonar.sources=.
+            -Dsonar.verbose=true
