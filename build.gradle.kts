@@ -1,7 +1,7 @@
 plugins {
 	java
 	jacoco
-	id("org.sonarqube") version "6.0.1.5171"
+	id("org.sonarqube") version "4.4.1.3373"
 	id("org.springframework.boot") version "3.4.2"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -83,4 +83,11 @@ tasks.jacocoTestReport {
 
 tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
+}
+sonarqube {
+	properties {
+		property("sonar.projectKey", "aryanstya_eshop2")
+		property("sonar.organization", "aryanstya")
+		property("sonar.host.url", "https://sonarcloud.io")
+	}
 }
