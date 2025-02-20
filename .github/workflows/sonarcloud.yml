@@ -12,6 +12,7 @@ permissions:
   contents: read
   pull-requests: read
   security-events: write  # ✅ Diperlukan untuk upload SARIF ke GitHub Security
+  id-token: write  # ✅ Diperlukan untuk autentikasi OpenID SonarCloud
 
 jobs:
   build:
@@ -23,6 +24,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # ✅ Penting agar SonarCloud bisa membaca riwayat commit
+
+      - name: Check SonarCloud Token
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "ERROR: SONAR_TOKEN is not set!"
+            exit 1
+          fi
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -51,10 +59,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew build sonar --stacktrace --info  # ✅ Perintah ini lebih optimal di Gradle
+          ./gradlew clean build jacocoTestReport sonar --stacktrace --info
 
-      - name: Upload SARIF to GitHub Security
+      - name: Upload SonarCloud SARIF Report
         if: success()
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: results.sarif
+          sarif_file: build/reports/sonarqube/report-task.txt
