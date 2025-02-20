@@ -1,0 +1,49 @@
+name: Scorecard supply-chain security
+on:
+  branch_protection_rule:
+  schedule:
+    - cron: '28 6 * * 6'
+  push:
+    branches: [ "main" ]
+  pull_request:  # ✅ Menambahkan PR agar analisis juga berjalan saat ada perubahan kode
+    branches: [ "main" ]
+
+# Set default permissions lebih ketat
+permissions:
+  contents: read  # ✅ Lebih aman daripada `read-all`
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      id-token: write
+      contents: read  # ✅ Membatasi akses hanya ke kode
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4  # ✅ Gunakan versi tag terbaru
+        with:
+          fetch-depth: 0  # ✅ Agar bisa membaca riwayat commit
+          persist-credentials: false
+
+      - name: "Run analysis"
+        uses: ossf/scorecard-action@v2.3.1  # ✅ Gunakan tag resmi
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          repo_token: ${{ secrets.SCORECARD_TOKEN }}  # ✅ Pastikan token ini tersedia di Secrets
+          publish_results: true  # ✅ Biarkan true agar hasilnya bisa diakses
+
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
