@@ -1,18 +1,12 @@
-name: SonarCloud analysis
+name: SonarCloud Code Analysis
 
 on:
   push:
     branches:
       - main
-      - module-2-exercise  # ✅ Tambahkan jika butuh analisis di branch lain
+      - module-2-exercise  # ✅ Runs on both main and feature branches
   pull_request:
     types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read
-  pull-requests: read
-  security-events: write  # ✅ Diperlukan untuk upload SARIF ke GitHub Security
-  id-token: write  # ✅ Diperlukan untuk autentikasi OpenID SonarCloud
 
 jobs:
   build:
@@ -23,26 +17,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # ✅ Penting agar SonarCloud bisa membaca riwayat commit
+          fetch-depth: 0  # ✅ Required for proper SonarCloud analysis
 
-      - name: Debug SonarCloud Token
-        run: |
-          echo "Checking SONAR_TOKEN length: ${#SONAR_TOKEN}"
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Validate SonarCloud Token
-        run: |
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo "ERROR: SONAR_TOKEN is not set!"
-            exit 1
-          fi
-
-      - name: Set up JDK 21
+      - name: Set up JDK 21  # ✅ Matches your Gradle Java version
         uses: actions/setup-java@v4
         with:
           java-version: 21
-          distribution: 'zulu'  # ✅ Pastikan sesuai dengan versi proyek
+          distribution: 'zulu' # Alternative options: 'temurin', 'adopt'
 
       - name: Cache SonarQube packages
         uses: actions/cache@v4
@@ -57,23 +38,12 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle
-
+      
       - name: Grant execute permissions for Gradle
-        run: chmod +x gradlew  # ✅ Agar bisa berjalan di Linux
+        run: chmod +x gradlew  # ✅ Ensures Gradle can run in Linux-based environments
 
       - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew clean build jacocoTestReport sonar \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            --stacktrace --info
-
-      - name: List Generated Reports
-        run: ls -R build/sonar
-
-      - name: Upload SonarCloud SARIF Report
-        if: success()
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: build/sonar/report-task.txt
+          ./gradlew build sonar --stacktrace --info  # ✅ Better debugging
