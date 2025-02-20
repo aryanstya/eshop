@@ -10,7 +10,7 @@ on:
 
 permissions:  # ✅ Menambahkan deklarasi permission eksplisit
   contents: read
-  security-events: write
+  security-events: read
 
 jobs:
   build:
