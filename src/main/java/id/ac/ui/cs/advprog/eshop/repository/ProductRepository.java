@@ -20,14 +20,14 @@ public class ProductRepository {
         return productData.iterator();
     }
 
-
+    // ✅ FIX: Add missing findById method
     public Product findById(String productId) {
         for (Product product : productData) {
             if (product.getProductId() != null && product.getProductId().equals(productId)) {
-                return product;
+                return product;  // ✅ Return the product if found
             }
         }
-        return null;
+        return null;  // ✅ Return null if not found
     }
 
     public Product update(Product updatedProduct) {
@@ -47,7 +47,7 @@ public class ProductRepository {
             Product product = iterator.next();
             if (product.getProductId() != null && product.getProductId().equals(productId)) {
                 iterator.remove();
-                return true;
+                return true;  // ✅ Successfully deleted
             }
         }
         return false;  // Product not found

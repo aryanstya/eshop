@@ -1,5 +1,7 @@
 plugins {
 	java
+	jacoco
+	id("org.sonarqube") version "6.0.1.5171"
 	id("org.springframework.boot") version "3.4.2"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -12,6 +14,7 @@ java {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
+
 
 configurations {
 	compileOnly {
@@ -26,7 +29,6 @@ repositories {
 val seleniumJavaVersion = "4.14.1"
 val seleniumJupiterVersion = "5.0.1"
 val webdrivermanagerVersion = "5.6.3"
-val junitJupiterVersion = "5.9.1"
 
 
 dependencies {
@@ -64,6 +66,21 @@ tasks.register<Test>( "functionalTest") {
 	}
 
 }
+
+tasks.test {
+	filter {
+		excludeTestsMatching("*FunctionalTest")
+	}
+
+	finalizedBy(tasks.jacocoTestReport)
+
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+
+}
+
 tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
