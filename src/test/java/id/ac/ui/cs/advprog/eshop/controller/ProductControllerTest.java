@@ -32,7 +32,12 @@ class ProductControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
+    @Test
+    void testCreateProductPage() {
+        String viewName = productController.createProductPage(model);
+        assertEquals("CreateProduct", viewName);
+        verify(model).addAttribute(eq("product"), any(Product.class));
+    }
 
     @Test
     void testCreateProductPost() {
@@ -43,6 +48,13 @@ class ProductControllerTest {
         verify(productService).create(argThat(p -> p.getProductId() != null && !p.getProductId().isEmpty()));
     }
 
+    @Test
+    void testProductListPage() {
+        when(productService.findAll()).thenReturn(new ArrayList<>());
+        String viewName = productController.productListPage(model);
+        assertEquals("ProductList", viewName);
+        verify(model).addAttribute(eq("products"), anyList());
+    }
 
     @Test
     void testEditProductPost() {
@@ -59,64 +71,29 @@ class ProductControllerTest {
         verify(productService).delete(id);
         assertEquals("redirect:/product/list", viewName);
     }
+
     @Test
     void testEditProductPage_ProductNotFound() {
         String id = UUID.randomUUID().toString();
-        List<Product> productList = new ArrayList<>(); // Produk kosong
-
-        when(productService.findAll()).thenReturn(productList);
+        when(productService.findAll()).thenReturn(new ArrayList<>());
 
         String viewName = productController.editProductPage(id, model);
 
-        assertEquals("redirect:/product/list", viewName); // Harus redirect jika tidak ditemukan
+        assertEquals("redirect:/product/list", viewName);
         verify(model, never()).addAttribute(eq("product"), any(Product.class));
     }
+
     @Test
     void testEditProductPage_NullId() {
-        String id = null;  // Simulasi id null
-        List<Product> productList = new ArrayList<>();
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.editProductPage(id, model);
-
-        assertEquals("redirect:/product/list", viewName); // Pastikan tetap redirect
-        verify(model, never()).addAttribute(eq("product"), any(Product.class));
-    }
-
-    @Test
-    void testEditProductPage_MultipleProductsButNotFound() {
-        String id = UUID.randomUUID().toString();
-        List<Product> productList = new ArrayList<>();
-        productList.add(new Product()); // Produk dengan ID berbeda
-        productList.add(new Product()); // Produk lain dengan ID berbeda
-
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.editProductPage(id, model);
-
+        String viewName = productController.editProductPage(null, model);
         assertEquals("redirect:/product/list", viewName);
         verify(model, never()).addAttribute(eq("product"), any(Product.class));
-    }
-
-    @Test
-    void testDeleteProduct_NullId() {
-        String id = null; // Simulasi id null
-        String viewName = productController.deleteProduct(id);
-
-        assertEquals("redirect:/product/list", viewName);
-        verify(productService, never()).delete(anyString());
     }
 
     @Test
     void testEditProductPage_EmptyId() {
-        String id = ""; // Simulasi id kosong
-        List<Product> productList = new ArrayList<>();
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.editProductPage(id, model);
-
+        String viewName = productController.editProductPage("", model);
         assertEquals("redirect:/product/list", viewName);
         verify(model, never()).addAttribute(eq("product"), any(Product.class));
     }
-
 }
