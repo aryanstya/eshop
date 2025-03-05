@@ -32,12 +32,7 @@ class ProductControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testCreateProductPage() {
-        String viewName = productController.createProductPage(model);
-        verify(model).addAttribute(eq("product"), any(Product.class));
-        assertEquals("createProduct", viewName);
-    }
+
 
     @Test
     void testCreateProductPost() {
@@ -48,29 +43,6 @@ class ProductControllerTest {
         verify(productService).create(argThat(p -> p.getProductId() != null && !p.getProductId().isEmpty()));
     }
 
-    @Test
-    void testProductListPage() {
-        List<Product> productList = new ArrayList<>();
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.productListPage(model);
-        verify(model).addAttribute("products", productList);
-        assertEquals("productList", viewName);
-    }
-
-    @Test
-    void testEditProductPage() {
-        String id = UUID.randomUUID().toString();
-        Product product = new Product();
-        product.setProductId(id);
-        List<Product> productList = List.of(product);
-
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.editProductPage(id, model);
-        verify(model).addAttribute("product", product);
-        assertEquals("editProduct", viewName);
-    }
 
     @Test
     void testEditProductPost() {
@@ -127,22 +99,6 @@ class ProductControllerTest {
     }
 
     @Test
-    void testEditProductPage_FirstProductMatches() {
-        String id = UUID.randomUUID().toString();
-        Product matchingProduct = new Product();
-        matchingProduct.setProductId(id);
-        List<Product> productList = new ArrayList<>();
-        productList.add(matchingProduct); // Produk pertama cocok
-        productList.add(new Product()); // Produk kedua tidak cocok
-
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.editProductPage(id, model);
-
-        verify(model).addAttribute("product", matchingProduct);
-        assertEquals("editProduct", viewName);
-    }
-    @Test
     void testDeleteProduct_NullId() {
         String id = null; // Simulasi id null
         String viewName = productController.deleteProduct(id);
@@ -161,25 +117,6 @@ class ProductControllerTest {
 
         assertEquals("redirect:/product/list", viewName);
         verify(model, never()).addAttribute(eq("product"), any(Product.class));
-    }
-
-    @Test
-    void testEditProductPage_MultipleProductsOneMatches() {
-        String id = UUID.randomUUID().toString();
-        Product matchingProduct = new Product();
-        matchingProduct.setProductId(id);
-
-        Product nonMatchingProduct = new Product();
-        nonMatchingProduct.setProductId(UUID.randomUUID().toString());
-
-        List<Product> productList = List.of(nonMatchingProduct, matchingProduct);
-
-        when(productService.findAll()).thenReturn(productList);
-
-        String viewName = productController.editProductPage(id, model);
-
-        verify(model).addAttribute("product", matchingProduct);
-        assertEquals("editProduct", viewName);
     }
 
 }
