@@ -1,116 +1,103 @@
 ### **Aryan Primasatya Putra Hidayat - 2206081181**  
 
-<details>  
-<summary>Modul 1</summary>  
+<details>
+<summary>Modul 1</summary>
 
-## **Refleksi 1**  
-Dalam **Latihan 1**, saya mengimplementasikan fitur **edit dan hapus produk**. Untuk fitur edit, ketika pengguna mengklik tombol "Edit", sebuah formulir akan ditampilkan berisi detail produk saat ini menggunakan Thymeleaf. Setelah pengguna mengirimkan formulir, produk akan diperbarui. Sementara itu, untuk fitur hapus, ketika pengguna menekan tombol "Hapus", `ProductController.java` akan memanggil layanan yang bertanggung jawab untuk menghapus produk.  
+## Refleksi 1
+Dalam latihan pertama, saya mengimplementasikan fitur edit dan hapus produk. Pada fitur edit, saat pengguna mengklik tombol Edit, sebuah formulir akan ditampilkan dengan detail produk yang sudah ada menggunakan Thymeleaf. Setelah pengguna mengirimkan formulir, produk akan diperbarui sesuai perubahan yang dilakukan. Untuk fitur hapus, saat pengguna mengklik tombol Hapus, `ProductController.java` akan memanggil layanan yang bertanggung jawab untuk menghapus produk.
 
-### **Prinsip Clean Code yang Diterapkan:**  
-1. **Single Responsibility Principle (SRP)**: `ProductController` hanya menangani permintaan HTTP dan meneruskan logika bisnis ke `ProductService`, menjaga pemisahan tugas.  
-2. **Penamaan yang Deskriptif**: Variabel dan metode menggunakan nama yang jelas serta mudah dipahami.  
-3. **Menghindari Duplikasi Kode**: Penggunaan service layer untuk menghindari pengulangan logika dalam controller.  
-4. **Format Kode yang Konsisten**: Indentasi dan spasi dijaga agar kode tetap rapi dan mudah dibaca.  
+### Prinsip Clean Code yang Diterapkan:
+1. **Single Responsibility Principle (SRP)**: `ProductController` hanya menangani permintaan HTTP, sementara logika bisnis diserahkan kepada `ProductService`, memastikan pemisahan tanggung jawab.
+2. **Penamaan yang Jelas**: Variabel dan metode diberi nama yang deskriptif agar lebih mudah dipahami.
+3. **Menghindari Duplikasi Kode**: Logika bisnis dikelola di service layer untuk menghindari pengulangan kode dalam controller.
+4. **Format Konsisten**: Struktur kode rapi dengan indentasi dan spasi yang sesuai untuk meningkatkan keterbacaan.
 
-### **Praktik Keamanan yang Diterapkan:**  
-1. **Validasi Input**: Pembaruan dan penghapusan produk hanya dilakukan jika `productId` yang diberikan valid.  
-2. **Mencegah Null Pointer Exception**: Menggunakan pemeriksaan null secara aman sebelum mengakses properti objek.  
-3. **Enkapsulasi**: Properti produk bersifat privat dan hanya dapat diakses melalui getter dan setter.  
-4. **Menghindari Nilai Hardcoded**: UUID dihasilkan secara dinamis untuk menghindari penggunaan nilai tetap.  
+### Praktik Keamanan dalam Kode:
+1. **Validasi Input**: Pembaruan dan penghapusan produk hanya diproses jika `productId` yang valid diberikan.
+2. **Mencegah Null Pointer Exception**: Dilakukan pengecekan null sebelum mengakses properti objek.
+3. **Encapsulation**: Properti produk dibuat private, dan aksesnya dikendalikan melalui getter dan setter.
+4. **Menghindari Nilai yang Ditetapkan Secara Hardcoded**: UUID dibuat secara dinamis untuk memastikan keunikan data.
 
-### **Area yang Perlu Ditingkatkan:**  
-1. **Peningkatan Dependency Injection**: Menggunakan constructor injection daripada field injection di `ProductController` untuk meningkatkan keterujian kode.  
-2. **Keamanan Akses Bersamaan di Repository**: Jika `ProductRepository` digunakan secara bersamaan, perlu disinkronkan untuk menghindari race condition.  
-3. **Peningkatan Penanganan Kesalahan**: Memberikan pesan kesalahan yang lebih informatif saat memperbarui atau menghapus produk yang tidak ada.  
-4. **Penerapan Logging**: Menambahkan mekanisme logging di dalam service untuk melacak perubahan pada produk.  
+### Area yang Perlu Ditingkatkan:
+1. **Peningkatan Dependency Injection**: Menggunakan constructor injection daripada field injection dalam `ProductController` untuk meningkatkan testabilitas.
+2. **Keamanan Akses Bersamaan di Repository**: Jika `ProductRepository` digunakan dalam lingkungan multithreading, diperlukan mekanisme sinkronisasi.
+3. **Penanganan Error yang Lebih Baik**: Menyediakan pesan error yang lebih informatif saat terjadi kesalahan saat memperbarui atau menghapus produk.
+4. **Penerapan Logging**: Menambahkan logging di dalam layanan untuk melacak perubahan pada produk.
 
-Dengan menerapkan perbaikan ini, kode akan lebih mudah dipelihara, dikembangkan, dan lebih aman.  
+Dengan perbaikan ini, kode akan lebih mudah dikelola, diperluas, dan lebih aman.
 
-## **Refleksi 2**  
-### **Pengujian Unit dan Cakupan Kode**  
-Setelah menulis pengujian unit, saya lebih yakin bahwa fitur yang diimplementasikan bekerja sesuai harapan. Pengujian unit membantu memastikan bahwa setiap komponen kode berfungsi dengan benar. Namun, jumlah pengujian yang diperlukan dalam suatu kelas tergantung pada kompleksitas logikanya. Praktik yang baik adalah mencakup semua kemungkinan jalur, termasuk skenario positif dan negatif.  
+## Refleksi 2
+### Pengujian Unit dan Cakupan Kode:
+Setelah menulis unit test, saya lebih yakin bahwa fitur yang telah diimplementasikan bekerja dengan benar. Pengujian unit memastikan bahwa setiap komponen kode berfungsi sebagaimana mestinya. Namun, jumlah unit test yang ideal tergantung pada kompleksitas logika yang diuji. Sebaiknya, pengujian mencakup semua kemungkinan jalur eksekusi, termasuk skenario positif dan negatif.
 
-Untuk memastikan cakupan pengujian yang cukup, kita bisa menggunakan metrik code coverage yang mengukur persentase kode yang dieksekusi selama pengujian. Namun, cakupan 100% tidak menjamin bahwa perangkat lunak bebas dari bug—hanya menunjukkan bahwa semua baris kode telah dieksekusi setidaknya sekali. Oleh karena itu, pengujian fungsional dan integrasi juga sangat penting.  
+Untuk memastikan cakupan pengujian yang memadai, kita dapat menggunakan metrik cakupan kode yang mengukur persentase kode yang dijalankan selama pengujian. Namun, cakupan kode 100% tidak selalu berarti perangkat lunak bebas dari bug, karena masih bisa ada skenario tepi dan kesalahan logis yang tidak terdeteksi oleh pengujian unit saja. Oleh karena itu, pengujian fungsional dan integrasi juga sangat penting.
 
-### **Masalah Clean Code dalam Pengujian Fungsional**  
-Pada file `CreateProductFunctionalTest.java`, jika kita menambahkan suite pengujian fungsional baru dengan prosedur setup dan variabel instance yang sama, ini bisa menyebabkan duplikasi kode, yang berdampak negatif pada pemeliharaan dan keterbacaan kode.  
+### Masalah Clean Code dalam Pengujian Fungsional
+Dalam `CreateProductFunctionalTest.java`, jika ada suite pengujian fungsional baru yang ditambahkan dengan prosedur setup yang sama dan variabel instance yang berulang, maka dapat menyebabkan duplikasi kode. Hal ini dapat berdampak negatif terhadap keterbacaan dan pemeliharaan kode.
 
-### **Potensi Masalah dan Solusinya**  
-1. **Duplikasi Kode**: Pengulangan setup dalam beberapa kelas pengujian menyebabkan tantangan pemeliharaan.  
-   - **Solusi**: Ekstraksi logika setup umum ke dalam kelas dasar yang bisa diperluas oleh kelas pengujian lainnya.  
+### Masalah dan Perbaikan yang Dapat Dilakukan:
+1. **Duplikasi Kode**: Pengulangan kode setup dalam beberapa kelas pengujian membuat pemeliharaan lebih sulit.
+   - **Solusi**: Memindahkan logika setup umum ke dalam kelas dasar yang dapat diperluas oleh kelas pengujian lainnya.
+2. **Pelanggaran Prinsip DRY (Don't Repeat Yourself)**: Penulisan logika pengujian yang berulang meningkatkan risiko inkonsistensi.
+   - **Solusi**: Menggunakan kelas utilitas pengujian atau pengujian parameterized jika memungkinkan.
+3. **Keterbacaan dan Organisasi Pengujian**: Logika pengujian yang tersebar di berbagai tempat dapat mengurangi keterbacaan kode.
+   - **Solusi**: Mengelompokkan pengujian secara logis dan mengikuti konvensi penamaan yang jelas untuk menjelaskan tujuan pengujian.
 
-2. **Pelanggaran Prinsip DRY (Don't Repeat Yourself)**: Redundansi dalam logika pengujian meningkatkan risiko inkonsistensi.  
-   - **Solusi**: Menggunakan kelas utilitas pengujian atau parameterized tests jika memungkinkan.  
-
-3. **Keterbacaan & Organisasi Pengujian**: Logika pengujian yang serupa di berbagai tempat dapat mengurangi keterbacaan.  
-   - **Solusi**: Mengelompokkan pengujian secara logis dan mengikuti konvensi penamaan yang jelas.  
-
-Dengan merestrukturisasi suite pengujian fungsional sesuai prinsip ini, kode pengujian akan lebih bersih, mudah dipelihara, dan lebih scalable.  
-
-</details>  
-
-<details>  
-<summary>Modul 2</summary>  
-
-## **Refleksi 2**  
-1. **Masalah Kualitas Kode yang Diperbaiki dan Strategi Perbaikannya**  
-   - **Masalah**: Import `"import java.util.UUID;"` dan `"import org.springframework.ui.Model;"` di `ProductControllerTest.java` tidak digunakan.  
-   - **Strategi**: Menghapus import yang tidak digunakan untuk menjaga kode tetap bersih, mudah dibaca, dan efisien.  
-
-2. **Evaluasi CI/CD**  
-   - Workflow CI sudah otomatis membangun proyek, menjalankan pengujian unit, dan melakukan analisis kualitas serta keamanan kode setiap kali ada push atau pull request.  
-   - Workflow deployment secara otomatis membuat image Docker dan menerapkannya ke Koyeb ketika ada push ke branch utama.  
-   - Mekanisme pemeriksaan terjadwal dan perlindungan branch meningkatkan keandalan serta keamanan proses integrasi dan deployment.  
-   - **Potensi peningkatan**: Menambahkan pengujian integrasi dan deployment multi-lingkungan untuk memperkuat pipeline CI/CD.  
-
-</details>  
-
-<details>  
-<summary>Modul 3</summary>  
-
-1. **Prinsip Clean Code yang Diterapkan**  
-   - **Single Responsibility Principle (SRP)**: `CarController` dan `ProductController` dipisahkan agar masing-masing hanya menangani tugasnya sendiri.  
-   - **Open-Closed Principle (OCP)**: Menggunakan antarmuka (`CarService` dan `ProductService`) agar fitur baru bisa ditambahkan tanpa mengubah kode yang ada.  
-   - **Dependency Inversion Principle (DIP)**: Controller bergantung pada antarmuka, bukan implementasi spesifik, sehingga lebih fleksibel untuk pengujian dan pembaruan.  
-
-2. **Pentingnya Prinsip Ini**  
-   - **SRP**: Memudahkan pengelolaan proyek, sehingga perubahan pada fitur mobil tidak memengaruhi fitur produk.  
-   - **OCP**: Memungkinkan pengembangan tanpa mengganggu kode yang sudah berfungsi, mengurangi risiko bug.  
-   - **DIP**: Mempermudah pengujian karena bisa menggunakan mock data tanpa bergantung pada database asli.  
-
-3. **Konsekuensi Jika Tidak Diterapkan**  
-   - Tanpa **SRP**, kode menjadi berantakan karena fitur mobil dan produk bercampur dalam satu controller.  
-   - Tanpa **OCP**, setiap penambahan fitur memerlukan perubahan pada kode lama, meningkatkan kemungkinan error.  
-   - Tanpa **DIP**, pengujian menjadi sulit karena controller akan terikat pada implementasi spesifik layanan.  
-
-</details>  
-
-<details>  
-<summary>Modul 4</summary>  
-
-## **Refleksi 4**  
-
-1. **Efektivitas TDD dalam Pengembangan Kode yang Andal**  
-   - Mengikuti alur **TDD** membantu dalam menyusun proses implementasi secara lebih sistematis. Dengan memulai dari pengujian, saya dapat fokus pada perilaku yang diharapkan sebelum menulis kode sebenarnya.  
-   - Namun, tantangannya adalah mendefinisikan pengujian sebelum memahami semua edge case, yang kadang menyebabkan perlu adanya refaktor pada pengujian.  
-   - **Peningkatan yang bisa dilakukan**:  
-     - Memperjelas deskripsi pengujian untuk mendokumentasikan tujuan dengan lebih baik.  
-     - Menyempurnakan assertion agar pesan kegagalan lebih jelas.  
-     - Menggunakan parameterized tests untuk skenario yang berulang.  
-
-2. **Evaluasi Pengujian Berdasarkan Prinsip F.I.R.S.T.**  
-
-| Prinsip  | Evaluasi |  
-|------------|------------|  
-| **Fast** | Pengujian berjalan cepat karena menggunakan operasi dalam memori dan mock, tanpa ketergantungan berat. |  
-| **Independent** | Setiap pengujian berdiri sendiri dan tidak bergantung pada status eksternal. |  
-| **Repeatable** | Pengujian memberikan hasil yang konsisten setiap kali dijalankan. |  
-| **Self-Validating** | Setiap pengujian memiliki assertion yang jelas untuk menentukan keberhasilan/kegagalan secara otomatis. |  
-| **Timely** | Beberapa pengujian ditulis setelah implementasi, bukan sebelum. Perlu lebih disiplin dalam mengikuti siklus **Red-Green-Refactor**. |  
-
-### **Langkah Perbaikan Selanjutnya**  
-- Menambah cakupan pengujian edge case.  
-- Menambahkan pengujian integrasi.  
-- Memperbaiki struktur pengujian agar lebih terorganisir.  
-
+Dengan menerapkan perbaikan ini, kode pengujian akan lebih bersih, mudah dikelola, dan lebih dapat diperluas.
 </details>
+
+<details>
+<summary>Modul 2</summary>
+
+## Refleksi 2
+1. **Masalah Kualitas Kode yang Diperbaiki dan Strategi Perbaikannya:**
+    - **Masalah**: Beberapa impor yang tidak digunakan seperti `import java.util.UUID;` dan `import org.springframework.ui.Model;` ditemukan di `ProductControllerTest.java`.
+    - **Strategi**: Menghapus impor yang tidak digunakan untuk menjaga kode tetap bersih, mudah dibaca, dan efisien.
+
+2. **Evaluasi Implementasi CI/CD:**
+    - Workflow CI/CD dalam proyek ini telah mengotomatiskan proses build, menjalankan unit test, serta melakukan analisis kualitas dan keamanan kode setiap kali ada perubahan kode.
+    - Deployment otomatis dilakukan dengan membangun image Docker dan mengunggahnya ke Koyeb setiap ada perubahan pada branch utama.
+    - Dengan adanya pemeriksaan terjadwal dan mekanisme perlindungan branch, reliabilitas dan keamanan pipeline semakin ditingkatkan.
+    - Namun, pipeline ini masih dapat diperbaiki dengan menambahkan pengujian integrasi dan mendukung deployment ke beberapa lingkungan berbeda.
+</details>
+
+<details>
+<summary>Modul 3</summary>
+
+1. **Penerapan Prinsip SOLID:**
+   - **Single Responsibility Principle (SRP)**: `CarController` dan `ProductController` dipisahkan ke dalam file yang berbeda untuk menjaga fokusnya masing-masing.
+   - **Open-Closed Principle (OCP)**: `CarService` dan `ProductService` menggunakan antarmuka sehingga fitur baru dapat ditambahkan tanpa mengubah kode yang sudah ada.
+   - **Dependency Inversion Principle (DIP)**: Controller tidak bergantung pada implementasi layanan tertentu, tetapi pada antarmuka, sehingga lebih mudah diuji dan diperbarui.
+
+2. **Pentingnya Penerapan Prinsip Ini:**
+   - **SRP**: Memisahkan tanggung jawab memastikan bahwa perubahan pada satu fitur tidak merusak fitur lain.
+   - **OCP**: Sistem lebih fleksibel dan lebih sedikit perubahan kode yang tidak perlu.
+   - **DIP**: Mempermudah pengujian dengan menggunakan mock data dibandingkan harus berinteraksi langsung dengan database.
+
+3. **Dampak Jika Tidak Diterapkan:**
+   - Pelanggaran **SRP** dapat menyebabkan perubahan pada satu bagian kode mempengaruhi bagian lain secara tidak terduga.
+   - Tanpa **OCP**, setiap fitur baru mungkin memerlukan modifikasi kode lama, meningkatkan risiko bug.
+   - Tanpa **DIP**, pengujian akan sulit dilakukan karena dependensi yang kuat pada implementasi tertentu.
+</details>
+
+<details>
+<summary>Modul 4</summary>
+
+## Refleksi 4
+1. **Efektivitas TDD dalam Menjamin Keandalan Kode:**
+   - Mengikuti pendekatan **Test-Driven Development (TDD)** membantu menyusun proses implementasi dengan lebih terstruktur.
+   - Pengujian ditulis sebelum implementasi, memastikan bahwa setiap perubahan memiliki kasus uji yang jelas.
+   - Tantangan terbesar adalah mendefinisikan kasus uji sebelum memahami semua edge case, yang kadang mengharuskan refactoring ulang.
+   - Perbaikan yang dapat dilakukan:
+     - Menyusun deskripsi pengujian dengan lebih jelas.
+     - Memperbaiki asersi agar lebih eksplisit.
+     - Menggunakan pengujian parameterized untuk skenario berulang.
+
+2. **Evaluasi Terhadap Prinsip F.I.R.S.T. dalam Pengujian Unit:**
+   - **Fast**: Pengujian cepat karena menggunakan mock dan tidak bergantung pada database.
+   - **Independent**: Setiap pengujian tidak bergantung pada status pengujian lain.
+   - **Repeatable**: Hasil pengujian konsisten di setiap kali eksekusi.
+   - **Self-Validating**: Hasil pengujian secara otomatis menentukan keberhasilan atau kegagalan.
+   - **Timely**: Beberapa pengujian masih ditulis setelah implementasi, perlu peningkatan dalam penerapan siklus **Red-Green-Refactor**.
+</details>
+
