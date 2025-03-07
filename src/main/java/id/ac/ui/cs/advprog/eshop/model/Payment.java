@@ -59,5 +59,6 @@ public class Payment {
             throw new IllegalArgumentException("Invalid status");
         }
         this.status = status;
+        
     }
 }
