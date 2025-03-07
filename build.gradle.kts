@@ -38,11 +38,15 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
+	compileOnly ("org.projectlombok:lombok:1.18.30")
+	testCompileOnly("org.projectlombok:lombok:1.18.30")
+	testAnnotationProcessor ("org.projectlombok:lombok:1.18.30")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.seleniumhq.selenium:selenium-java:4.14.1")
 	testImplementation("io.github.bonigarcia:selenium-jupiter:5.0.1")
 	testImplementation("io.github.bonigarcia:webdrivermanager:5.6.3")
 	testImplementation("org.junit.jupiter:junit-jupiter")
+
 
 }
 
