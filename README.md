@@ -101,6 +101,8 @@ Dengan menerapkan perbaikan ini, kode pengujian akan lebih bersih, mudah dikelol
    - **Timely**: Beberapa pengujian masih ditulis setelah implementasi, perlu peningkatan dalam penerapan siklus **Red-Green-Refactor**.
 </details>
 
+</details>
+<summary>Modul 5</summary>
 ## Refleksi 5
 
 1. **all student name**
