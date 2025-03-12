@@ -101,3 +101,13 @@ Dengan menerapkan perbaikan ini, kode pengujian akan lebih bersih, mudah dikelol
    - **Timely**: Beberapa pengujian masih ditulis setelah implementasi, perlu peningkatan dalam penerapan siklus **Red-Green-Refactor**.
 </details>
 
+## Refleksi 5
+
+1. **all student name**
+![image](https://github.com/user-attachments/assets/354eb4c9-04a9-4186-8f43-a963794e3985)
+
+2. **highest gpa**
+![image](https://github.com/user-attachments/assets/e4c15e79-c492-4d90-8b4e-024ee091add5)
+
+</details>
+
