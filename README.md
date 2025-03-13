@@ -112,5 +112,9 @@ Dengan menerapkan perbaikan ini, kode pengujian akan lebih bersih, mudah dikelol
 2. **highest gpa**
 ![image](https://github.com/user-attachments/assets/e4c15e79-c492-4d90-8b4e-024ee091add5)
 
+3. **Log File**
+![image](https://github.com/user-attachments/assets/a8035c36-bcef-4ce4-9f78-df1e09b71be2)
+
+
 </details>
 
