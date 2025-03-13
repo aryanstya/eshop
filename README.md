@@ -115,6 +115,26 @@ Dengan menerapkan perbaikan ini, kode pengujian akan lebih bersih, mudah dikelol
 3. **Log File**
 ![image](https://github.com/user-attachments/assets/a8035c36-bcef-4ce4-9f78-df1e09b71be2)
 
+**Optimalisasi**
+
+sebelum optimalisasi
+
+1. **Getmapping allstudent**
+![Screenshot 2025-03-13 180837](https://github.com/user-attachments/assets/4d37336a-cd22-4728-a041-f367de449d8c)
+
+2. **Getallstudentwithcourse**
+![Screenshot 2025-03-13 180906](https://github.com/user-attachments/assets/e342e0e4-a015-40a7-a705-cbb0eab459e8)
+
+setelah optimalisasi
+
+1. **Getmapping allstudent**
+
+![Screenshot 2025-03-13 181217](https://github.com/user-attachments/assets/3f6df4c6-75a7-4fac-9936-03a30641aa81)
+
+2. **Getallstudentwithcourse**
+
+![Screenshot 2025-03-13 181200](https://github.com/user-attachments/assets/e9af78c1-271b-4add-9917-82d4afe0d3ef)
+
 
 </details>
 
